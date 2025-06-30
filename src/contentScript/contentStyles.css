@@ -1,0 +1,47 @@
+.popup-panel {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+	text-align: center;
+	max-width: 30%;
+
+	position: absolute;
+
+	z-index: 9999;
+	background-color: #fff;
+	border: 1px solid #bbbbbb;
+	box-shadow: #00000033 0px 1px 3px 0px;
+
+	color: '#252525';
+	padding: 10px;
+}
+
+
+
+.change-icon,
+.copy-icon {
+	cursor: pointer;
+	align-self: start;
+}
+
+.change-icon {
+	display: block;
+	width: 20px;
+	position: absolute;
+	z-index: 9999;
+}
+
+.copy-icon {
+	width: 16px;
+}
+
+.popup-text {
+	margin: 0;
+	color: #464545;
+}
+
+
+.hidden {
+	display: none;
+}
