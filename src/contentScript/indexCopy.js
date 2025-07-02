@@ -78,27 +78,19 @@ import './contentStyles.css'
 
   const SELECTOR_PANEL = 'popup-panel'
   const SELECTOR_TEXT = 'popup-text'
-
   const SELECTOR_CHANGE_ICON = 'change-icon'
   const SELECTOR_COPY_ICON = 'copy-icon'
-  const SELECTOR_CLOSE_ICON = 'close-icon'
   const SELECTOR_REPLACE_ICON = 'replace-icon'
-
   const SELECTOR_ACTIONS = 'actions'
   const SELECTOR_BUTTON = 'button'
-  const SELECTOR_CLOSE_BUTTON = 'close-btn'
-  const SELECTOR_REPLACE_BUTTON = 'replace-btn'
 
-  const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.svg')
+  const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.png')
   const ICON_SRC_COPY = chrome.runtime.getURL('img/copy.svg')
   const ICON_SRC_CHECK = chrome.runtime.getURL('img/check.svg')
   const ICON_SRC_REPLACE = chrome.runtime.getURL('img/replace.svg')
-  const ICON_SRC_CLOSE = chrome.runtime.getURL('img/close.svg')
-
-  const PANEL_MARGIN_BOTTOM = 20
 
   const selectionData = {
-    selectedText: null,
+    selection: null,
     range: null,
     rect: null,
     targetElement: null,
@@ -126,14 +118,10 @@ import './contentStyles.css'
   replaceIcon.src = ICON_SRC_REPLACE
   replaceIcon.alt = 'Replace text icon'
 
-  const closeIcon = document.createElement('img')
-  closeIcon.className = SELECTOR_CLOSE_ICON
-  closeIcon.src = ICON_SRC_CLOSE
-  closeIcon.alt = 'Cross icon'
-
   const actionsContainer = document.createElement('div')
   actionsContainer.className = SELECTOR_ACTIONS
 
+  //copy button
   const copyBtn = document.createElement('button')
   const copyButtonName = document.createTextNode('Copy')
   copyBtn.className = SELECTOR_BUTTON
@@ -141,19 +129,14 @@ import './contentStyles.css'
   copyBtn.appendChild(copyButtonName)
   actionsContainer.appendChild(copyBtn)
 
+  //replace button
   const replaceBtn = document.createElement('button')
   const replaceButtonName = document.createTextNode('Replace')
   replaceBtn.className = SELECTOR_BUTTON
-  replaceBtn.classList.add(SELECTOR_REPLACE_BUTTON)
   replaceBtn.appendChild(replaceIcon)
   replaceBtn.appendChild(replaceButtonName)
   actionsContainer.appendChild(replaceBtn)
 
-  const closeBtn = document.createElement('button')
-  closeBtn.className = SELECTOR_CLOSE_BUTTON
-  closeBtn.appendChild(closeIcon)
-
-  panel.appendChild(closeBtn)
   panel.appendChild(changedText)
   panel.appendChild(actionsContainer)
   document.body.appendChild(changeIcon)
@@ -165,50 +148,41 @@ import './contentStyles.css'
 
   // --- Functions ---
   function handleSelection(event) {
+    selectionData.selection = window.getSelection()
+
     if (
       event.target.closest(`.${SELECTOR_PANEL}`) ||
       event.target.closest(`.${SELECTOR_CHANGE_ICON}`)
     )
       return
 
-    const selection = window.getSelection()
-
-    //prevent from selection fires if there's no selection or if the selection is a caret
-    if (selection.rangeCount === 0) {
+    //prevent from selection fires on caret
+    if (selectionData.selection.rangeCount === 0 
+      //|| selectionData.selection.type === 'Caret'
+      ) {
       resetUIAndSelectionState()
       return
     }
 
-    selectionData.selectedText = selection.toString()
-
-    if (selectionData.selectedText.trim().length === 0) {
+    if (selectionData.selection.toString().trim().length === 0) {
+      console.log('empty')
       changeIcon.classList.add('hidden')
       return
     }
 
-    const anchorNode = selection.anchorNode
+    const anchorNode = selectionData.selection.anchorNode
 
-    selectionData.range = selection?.getRangeAt(0)
-
+    selectionData.range = selectionData.selection?.getRangeAt(0)
     selectionData.rect = selectionData.range.getBoundingClientRect()
 
     selectionData.targetElement = event.target
 
-    // prevent popup from closing on text selection or double-click.
+    //prevent from popup closes on selection or double clicking
     if (anchorNode?.nodeType === Node.TEXT_NODE) {
       selectionData.targetElement = anchorNode.parentElement
       if (selectionData.targetElement.closest(`.${SELECTOR_PANEL}`)) {
         return
       }
-    }
-    //allow extension only on input, textarea, and elements with contentEditable=true
-    if (
-      !selectionData.targetElement.closest('input') &&
-      !selectionData.targetElement.closest('textarea') &&
-      !isContentEditableElement(selectionData.targetElement)
-    ) {
-      resetUIAndSelectionState()
-      return
     }
 
     changedText.innerText = ''
@@ -228,14 +202,15 @@ import './contentStyles.css'
 
     changeIcon.style.top =
       selectionData.rect.top + selectionData.rect.height > bottomEdge
-        ? window.scrollY + bottomEdge + 'px'
+        ? window.scrollY + bottomEdge
         : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
   }
 
   function showConversionPanel(event) {
+    console.log('image click')
     event.stopPropagation()
 
-    let arrFromSelection = selectionData.selectedText.trim().split('')
+    let arrFromSelection = selectionData.selection.toString().trim().split('')
     let convertedText = arrFromSelection.map((el) => enToUaMap[el] || el).join('')
     changedText.innerText = convertedText
 
@@ -247,24 +222,11 @@ import './contentStyles.css'
       panel.classList.add('hidden')
     }
 
-    //prevent "The input element's type ('email') does not support selection" error
-    if (selectionData.targetElement.type === 'email') {
-      replaceBtn.classList.add('hidden')
-    } else {
-      replaceBtn.classList.remove('hidden')
-    }
-
     //prevent panel overflow
     const bottomEdge = window.innerHeight - panel.offsetHeight
-    //const bottomEdge = selectionData.rect.top - panel.offsetHeight - selectionData.rect.height
     panel.style.top =
       selectionData.rect.top + selectionData.rect.height >= bottomEdge
-        ? // ? window.scrollY + bottomEdge + 'px'
-          window.scrollY +
-          selectionData.rect.top -
-          panel.offsetHeight -
-          selectionData.rect.height +
-          'px'
+        ? window.scrollY + bottomEdge + 'px'
         : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
 
     panel.style.left = window.scrollX + selectionData.rect.left + 'px'
@@ -272,6 +234,7 @@ import './contentStyles.css'
 
   async function handleCopyClick(event) {
     event.stopPropagation()
+    console.log('copy')
 
     let text = changedText.innerText
     if (!text) return
@@ -305,12 +268,13 @@ import './contentStyles.css'
     } else {
       selectionData.range.deleteContents()
       selectionData.range.insertNode(document.createTextNode(convertedText))
+      selectionData.selection.removeAllRanges()
     }
-    window.getSelection().removeAllRanges()
     resetUIAndSelectionState()
   }
 
   function handleDocumentClick(event) {
+    console.log('document click')
     const selectionLength = window.getSelection().toString().length
     const isInsidePanel = !!event.target.closest(`.${SELECTOR_PANEL}`)
     const isInsideChangeIcon = !!event.target.closest(`.${SELECTOR_CHANGE_ICON}`)
@@ -323,7 +287,12 @@ import './contentStyles.css'
       !isInsideChangeIcon &&
       selectionLength === 0
     ) {
-      resetUIAndSelectionState()
+      console.log('inside')
+      panel.classList.add('hidden')
+      changeIcon.classList.add('hidden')
+
+      //can cause problem with selection !!!
+      //resetUIAndSelectionState()
     }
   }
 
@@ -334,6 +303,7 @@ import './contentStyles.css'
       key === 'Backspace' ||
       (event.code == 'KeyV' && (event.ctrlKey || event.metaKey))
     ) {
+      console.log('delete')
       resetUIAndSelectionState()
     }
   }
@@ -344,29 +314,26 @@ import './contentStyles.css'
     panel.classList.add('hidden')
     changeIcon.classList.add('hidden')
 
-    selectionData.selectedText = null
+    selectionData.selection = null
     selectionData.rect = null
     selectionData.range = null
     selectionData.targetElement = null
   }
 
-  function isContentEditableElement(element) {
-    if (element.contentEditable === 'true') return true
-
-    if (element.tagName === 'BODY') return false
-
-    return isContentEditableElement(element.parentElement)
-  }
-
   // --- Event Handlers ---
-  // used 'mouseup' on changeIcon instead of 'click' event to ensure proper functionality within Gmail's "New Message" iframe.
   changeIcon.addEventListener('mouseup', showConversionPanel)
   copyBtn.addEventListener('click', handleCopyClick)
   replaceBtn.addEventListener('click', handleReplaceClick)
-  closeBtn.addEventListener('click', resetUIAndSelectionState)
 
   document.addEventListener('dblclick', handleSelection)
   document.addEventListener('mouseup', handleSelection)
   document.addEventListener('click', handleDocumentClick)
   document.addEventListener('keydown', handleInputDeleting)
 })()
+
+
+
+
+
+
+
