@@ -8,6 +8,44 @@ import {
 import { changedText, copyIcon, panel, changeIcon, replaceBtn } from './uiElements.js'
 import { selectionData, handleSelection, resetUIAndSelectionState } from './selectionLogic.js'
 
+export function showConversionPanel(event) {
+  event.stopPropagation()
+
+  let arrFromSelection = selectionData.selectedText.trim().split('')
+  let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('')
+  changedText.innerText = convertedText
+
+  changeIcon.classList.add('hidden')
+
+  if (changedText.innerText.trim().length > 0) {
+    panel.classList.remove('hidden')
+  } else {
+    panel.classList.add('hidden')
+  }
+
+  //prevent "The input element's type ('email') does not support selection" error
+  if (selectionData.targetElement.type === 'email') {
+    replaceBtn.classList.add('hidden')
+  } else {
+    replaceBtn.classList.remove('hidden')
+  }
+
+  //prevent panel overflow
+  const bottomEdge = window.innerHeight - panel.offsetHeight
+  //const bottomEdge = selectionData.rect.top - panel.offsetHeight - selectionData.rect.height
+  panel.style.top =
+    selectionData.rect.top + selectionData.rect.height >= bottomEdge
+      ? // ? window.scrollY + bottomEdge + 'px'
+        window.scrollY +
+        selectionData.rect.top -
+        panel.offsetHeight -
+        selectionData.rect.height +
+        'px'
+      : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
+
+  panel.style.left = window.scrollX + selectionData.rect.left + 'px'
+}
+
 export async function handleCopyClick(event) {
   event.stopPropagation()
 
@@ -66,56 +104,18 @@ export function handleDocumentClick(event) {
 }
 
 export function handleInputDeleting(event) {
-  const key = event.key
-
   if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)) {
     //JS magic: wait until browser applies selection (Ctrl+A), then read it
     setTimeout(() => handleSelection(event), 0)
+    return
   }
 
   if (
-    key === 'Delete' ||
-    key === 'Backspace' ||
-    (event.code == 'KeyV' && (event.ctrlKey || event.metaKey))
+    event.key === 'Delete' ||
+    event.key === 'Backspace' ||
+    (event.code == 'KeyV' && (event.ctrlKey || event.metaKey)) ||
+    (event.key && event.key.length === 1)
   ) {
     resetUIAndSelectionState()
   }
-}
-
-export function showConversionPanel(event) {
-  event.stopPropagation()
-
-  let arrFromSelection = selectionData.selectedText.trim().split('')
-  let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('')
-  changedText.innerText = convertedText
-
-  changeIcon.classList.add('hidden')
-
-  if (changedText.innerText.trim().length > 0) {
-    panel.classList.remove('hidden')
-  } else {
-    panel.classList.add('hidden')
-  }
-
-  //prevent "The input element's type ('email') does not support selection" error
-  if (selectionData.targetElement.type === 'email') {
-    replaceBtn.classList.add('hidden')
-  } else {
-    replaceBtn.classList.remove('hidden')
-  }
-
-  //prevent panel overflow
-  const bottomEdge = window.innerHeight - panel.offsetHeight
-  //const bottomEdge = selectionData.rect.top - panel.offsetHeight - selectionData.rect.height
-  panel.style.top =
-    selectionData.rect.top + selectionData.rect.height >= bottomEdge
-      ? // ? window.scrollY + bottomEdge + 'px'
-        window.scrollY +
-        selectionData.rect.top -
-        panel.offsetHeight -
-        selectionData.rect.height +
-        'px'
-      : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
-
-  panel.style.left = window.scrollX + selectionData.rect.left + 'px'
 }
