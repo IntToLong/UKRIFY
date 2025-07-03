@@ -1,4 +1,4 @@
-import './contentStyles.css'
+import './styles.css'
 ;(function () {
   //--- Constants ---
   const enToUaMap = {
@@ -95,7 +95,6 @@ import './contentStyles.css'
   const ICON_SRC_REPLACE = chrome.runtime.getURL('img/replace.svg')
   const ICON_SRC_CLOSE = chrome.runtime.getURL('img/close.svg')
 
-  const PANEL_MARGIN_BOTTOM = 20
 
   const selectionData = {
     selectedText: null,

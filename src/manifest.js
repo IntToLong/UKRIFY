@@ -16,16 +16,6 @@ export default defineManifest({
     48: 'icons/logo-48.png',
     128: 'icons/logo-128.png',
   },
-  action: {
-    default_popup: 'popup.html',
-    default_icon: 'icons/logo-48.png',
-  },
-  options_page: 'options.html',
-  devtools_page: 'devtools.html',
-  background: {
-    service_worker: 'src/background/index.js',
-    type: 'module',
-  },
   content_scripts: [
     {
       matches: ['<all_urls>'],
@@ -39,5 +29,5 @@ export default defineManifest({
       matches: ['<all_urls>'],
     },
   ],
-  permissions: ['storage'],
+  permissions: ['storage', 'activeTab', 'clipboardWrite'],
 })
