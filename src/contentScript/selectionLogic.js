@@ -13,8 +13,9 @@ export function handleSelection(event) {
   if (
     event.target.closest(`.${SELECTOR_PANEL}`) ||
     event.target.closest(`.${SELECTOR_CHANGE_ICON}`)
-  )
+  ) {
     return
+  }
 
   const selection = window.getSelection()
 
@@ -31,22 +32,36 @@ export function handleSelection(event) {
     return
   }
 
-  const anchorNode = selection.anchorNode
+  const range = selection.getRangeAt(0)
+  selectionData.range = range
 
-  selectionData.range = selection?.getRangeAt(0)
+  let endNode = range.endContainer
+  let offset = range.endOffset
 
-  selectionData.rect = selectionData.range.getBoundingClientRect()
+  // find last text node
+  if (endNode.nodeType === Node.ELEMENT_NODE) {
+    endNode = endNode.childNodes[offset - 1] || endNode
+    while (endNode && endNode.lastChild) {
+      endNode = endNode.lastChild
+    }
+    offset = endNode.textContent?.length || 0
+  }
+
+  // temporary range for selection end coordinates
+  const tempRange = document.createRange()
+  tempRange.setStart(endNode, offset)
+  tempRange.setEnd(endNode, offset)
+  selectionData.rect = tempRange.getBoundingClientRect()
 
   selectionData.targetElement = event.target
 
-  // prevent popup from closing on text selection or double-click.
-  if (anchorNode?.nodeType === Node.TEXT_NODE) {
-    selectionData.targetElement = anchorNode.parentElement
+  if (range.anchorNode?.nodeType === Node.TEXT_NODE) {
+    selectionData.targetElement = range.anchorNode.parentElement
     if (selectionData.targetElement.closest(`.${SELECTOR_PANEL}`)) {
       return
     }
   }
-  //allow extension only on input, textarea, and elements with contentEditable=true
+
   if (
     !selectionData.targetElement.closest('input') &&
     !selectionData.targetElement.closest('textarea') &&
@@ -63,7 +78,10 @@ export function handleSelection(event) {
   //prevent icon overflow
   const bottomEdge = window.innerHeight - changeIcon.offsetHeight
 
-  if (event.target.closest('input') || event.target.closest('textarea')) {
+  if (
+    selectionData.targetElement.closest('input') ||
+    selectionData.targetElement.closest('textarea')
+  ) {
     selectionData.rect = selectionData.targetElement.getBoundingClientRect()
     changeIcon.style.left = window.scrollX + selectionData.rect.left + 'px'
   } else {

@@ -109,13 +109,9 @@ export function handleInputDeleting(event) {
     setTimeout(() => handleSelection(event), 0)
     return
   }
-
-  if (
-    event.key === 'Delete' ||
-    event.key === 'Backspace' ||
-    (event.code == 'KeyV' && (event.ctrlKey || event.metaKey)) ||
-    (event.key && event.key.length === 1)
-  ) {
+  
+  //fix case when user Ctrl+A and after keep typing
+  if (event.code && event.code !== 'Enter') {
     resetUIAndSelectionState()
   }
 }
