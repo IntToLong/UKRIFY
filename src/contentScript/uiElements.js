@@ -14,73 +14,77 @@ import {
   SELECTOR_REPLACE_BUTTON,
   SELECTOR_CLOSE_BUTTON,
   SELECTOR_CHANGE_BUTTON,
-} from './constants.js'
+} from './constants.js';
 
 export function _createUIElements() {
-  const panel = document.createElement('div')
-  panel.className = SELECTOR_PANEL
+  const panel = document.createElement('div');
+  panel.className = SELECTOR_PANEL;
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-hidden', 'true');
 
-  const changedText = document.createElement('p')
-  changedText.className = SELECTOR_TEXT
+  const changedText = document.createElement('p');
+  changedText.className = SELECTOR_TEXT;
 
-  const changeIcon = document.createElement('img')
-  changeIcon.className = SELECTOR_CHANGE_ICON
-  changeIcon.src = ICON_SRC_NOTEBOOK
-  changeIcon.alt = 'Change text icon'
+  const changeIcon = document.createElement('img');
+  changeIcon.className = SELECTOR_CHANGE_ICON;
+  changeIcon.src = ICON_SRC_NOTEBOOK;
+  changeIcon.alt = 'Change text icon';
 
-  const copyIcon = document.createElement('img')
-  copyIcon.className = SELECTOR_COPY_ICON
-  copyIcon.src = ICON_SRC_COPY
-  copyIcon.alt = 'Copy to clipboard icon'
+  const copyIcon = document.createElement('img');
+  copyIcon.className = SELECTOR_COPY_ICON;
+  copyIcon.src = ICON_SRC_COPY;
+  copyIcon.alt = 'Copy to clipboard icon';
 
-  const replaceIcon = document.createElement('img')
-  replaceIcon.className = SELECTOR_REPLACE_ICON
-  replaceIcon.src = ICON_SRC_REPLACE
-  replaceIcon.alt = 'Replace text icon'
+  const replaceIcon = document.createElement('img');
+  replaceIcon.className = SELECTOR_REPLACE_ICON;
+  replaceIcon.src = ICON_SRC_REPLACE;
+  replaceIcon.alt = 'Replace text icon';
 
-  const closeIcon = document.createElement('img')
-  closeIcon.className = SELECTOR_CLOSE_ICON
-  closeIcon.src = ICON_SRC_CLOSE
-  closeIcon.alt = 'Cross icon'
+  const closeIcon = document.createElement('img');
+  closeIcon.className = SELECTOR_CLOSE_ICON;
+  closeIcon.src = ICON_SRC_CLOSE;
+  closeIcon.alt = 'Cross icon';
 
-  const changeBtn = document.createElement('button')
-  changeBtn.className = SELECTOR_CHANGE_BUTTON
-  changeBtn.appendChild(changeIcon)
+  const changeBtn = document.createElement('button');
+  changeBtn.className = SELECTOR_CHANGE_BUTTON;
+  changeBtn.appendChild(changeIcon);
+  changeBtn.setAttribute('aria-label', 'Open text conversion panel'); 
+  changeBtn.setAttribute('aria-hidden', 'true');
 
-  const actionsContainer = document.createElement('div')
-  actionsContainer.className = SELECTOR_ACTIONS
+  const actionsContainer = document.createElement('div');
+  actionsContainer.className = SELECTOR_ACTIONS;
 
-  const copyBtn = document.createElement('button')
-  const copyButtonName = document.createTextNode('Copy')
-  copyBtn.className = SELECTOR_BUTTON
-  copyBtn.appendChild(copyIcon)
-  copyBtn.appendChild(copyButtonName)
-  actionsContainer.appendChild(copyBtn)
+  const copyBtn = document.createElement('button');
+  const copyButtonName = document.createTextNode('Copy');
+  copyBtn.className = SELECTOR_BUTTON;
+  copyBtn.appendChild(copyIcon);
+  copyBtn.appendChild(copyButtonName);
+  actionsContainer.appendChild(copyBtn);
 
-  const replaceBtn = document.createElement('button')
-  const replaceButtonName = document.createTextNode('Replace')
-  replaceBtn.className = SELECTOR_BUTTON
-  replaceBtn.classList.add(SELECTOR_REPLACE_BUTTON)
-  replaceBtn.appendChild(replaceIcon)
-  replaceBtn.appendChild(replaceButtonName)
-  actionsContainer.appendChild(replaceBtn)
+  const replaceBtn = document.createElement('button');
+  const replaceButtonName = document.createTextNode('Replace');
+  replaceBtn.className = SELECTOR_BUTTON;
+  replaceBtn.classList.add(SELECTOR_REPLACE_BUTTON);
+  replaceBtn.appendChild(replaceIcon);
+  replaceBtn.appendChild(replaceButtonName);
+  actionsContainer.appendChild(replaceBtn);
 
-  const closeBtn = document.createElement('button')
-  closeBtn.className = SELECTOR_CLOSE_BUTTON
-  closeBtn.appendChild(closeIcon)
+  const closeBtn = document.createElement('button');
+  closeBtn.className = SELECTOR_CLOSE_BUTTON;
+  closeBtn.appendChild(closeIcon);
 
-  panel.appendChild(closeBtn)
-  panel.appendChild(changedText)
-  panel.appendChild(actionsContainer)
-  document.body.appendChild(changeBtn)
-  document.body.appendChild(panel)
+  panel.appendChild(closeBtn);
+  panel.appendChild(changedText);
+  panel.appendChild(actionsContainer);
+  document.body.appendChild(changeBtn);
+  document.body.appendChild(panel);
 
-  //--- set buttons type to 'button'
-  ;[changeBtn, closeBtn, copyBtn, replaceBtn].map((el) => el.setAttribute('type', 'button'))
+  //--- Set buttons type to 'button'
+  [changeBtn, closeBtn, copyBtn, replaceBtn].map((el) => el.setAttribute('type', 'button'));
 
   // --- Initial State ---
-  panel.classList.add('hidden')
-  changeBtn.classList.add('hidden')
+  panel.classList.add('hidden');
+  changeBtn.classList.add('hidden');
 
   return {
     panel,
@@ -93,7 +97,7 @@ export function _createUIElements() {
     replaceBtn,
     closeBtn,
     changeBtn,
-  }
+  };
 }
 
 export const {
@@ -107,4 +111,4 @@ export const {
   replaceBtn,
   closeBtn,
   changeBtn,
-} = _createUIElements()
+} = _createUIElements();

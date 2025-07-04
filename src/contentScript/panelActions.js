@@ -4,34 +4,39 @@ import {
   ICON_SRC_COPY,
   SELECTOR_PANEL,
   SELECTOR_CHANGE_BUTTON,
-} from './constants.js'
-import { changedText, copyIcon, panel, replaceBtn, changeBtn } from './uiElements.js'
-import { selectionData, handleSelection, resetUIAndSelectionState } from './selectionLogic.js'
+} from './constants.js';
+import { changedText, copyIcon, panel, replaceBtn, changeBtn } from './uiElements.js';
+import { selectionData, handleSelection, resetUIAndSelectionState } from './selectionLogic.js';
 
 export function showConversionPanel(event) {
-  event.stopPropagation()
+  event.stopPropagation();
 
-  let arrFromSelection = selectionData.selectedText.trim().split('')
-  let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('')
-  changedText.innerText = convertedText
+  let arrFromSelection = selectionData.selectedText.trim().split('');
+  let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('');
+  changedText.innerText = convertedText;
 
-  changeBtn.classList.add('hidden')
+  changeBtn.classList.add('hidden');
+  changeBtn.setAttribute('aria-hidden', 'true');
 
   if (changedText.innerText.trim().length > 0) {
-    panel.classList.remove('hidden')
+    panel.classList.remove('hidden');
+    panel.setAttribute('aria-hidden', 'false');
   } else {
-    panel.classList.add('hidden')
+    panel.classList.add('hidden');
+    panel.setAttribute('aria-hidden', 'true');
   }
 
   //prevent "The input element's type ('email') does not support selection" error
   if (selectionData.targetElement.type === 'email') {
-    replaceBtn.classList.add('hidden')
+    replaceBtn.classList.add('hidden');
+    replaceBtn.setAttribute('aria-hidden', 'true');
   } else {
-    replaceBtn.classList.remove('hidden')
+    replaceBtn.classList.remove('hidden');
+    replaceBtn.setAttribute('aria-hidden', 'false');
   }
 
   //prevent panel overflow
-  const bottomEdge = window.innerHeight - panel.offsetHeight
+  const bottomEdge = window.innerHeight - panel.offsetHeight;
   //const bottomEdge = selectionData.rect.top - panel.offsetHeight - selectionData.rect.height
   panel.style.top =
     selectionData.rect.top + selectionData.rect.height >= bottomEdge
@@ -41,57 +46,57 @@ export function showConversionPanel(event) {
         panel.offsetHeight -
         selectionData.rect.height +
         'px'
-      : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
+      : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px';
 
-  panel.style.left = window.scrollX + selectionData.rect.left + 'px'
+  panel.style.left = window.scrollX + selectionData.rect.left + 'px';
 }
 
 export async function handleCopyClick(event) {
-  event.stopPropagation()
+  event.stopPropagation();
 
-  let text = changedText.innerText
-  if (!text) return
+  let text = changedText.innerText;
+  if (!text) return;
 
   try {
-    await navigator.clipboard.writeText(text)
-    console.log('Content copied to clipboard')
-    copyIcon.src = ICON_SRC_CHECK
+    await navigator.clipboard.writeText(text);
+    console.log('Content copied to clipboard');
+    copyIcon.src = ICON_SRC_CHECK;
 
     setTimeout(() => {
-      copyIcon.src = ICON_SRC_COPY
-      resetUIAndSelectionState()
-    }, 500)
+      copyIcon.src = ICON_SRC_COPY;
+      resetUIAndSelectionState();
+    }, 500);
   } catch (err) {
-    console.error('Failed to copy: ', err)
+    console.error('Failed to copy: ', err);
   }
 }
 
 export function handleReplaceClick(event) {
-  event.stopPropagation()
-  const convertedText = changedText.innerText
+  event.stopPropagation();
+  const convertedText = changedText.innerText;
   if (
     selectionData.targetElement.tagName === 'INPUT' ||
     selectionData.targetElement.tagName === 'TEXTAREA'
   ) {
-    const start = selectionData.targetElement.selectionStart
-    const end = selectionData.targetElement.selectionEnd
+    const start = selectionData.targetElement.selectionStart;
+    const end = selectionData.targetElement.selectionEnd;
 
-    selectionData.targetElement.setRangeText(convertedText, start, end, 'end')
-    selectionData.targetElement.focus()
+    selectionData.targetElement.setRangeText(convertedText, start, end, 'end');
+    selectionData.targetElement.focus();
   } else {
-    selectionData.range.deleteContents()
-    selectionData.range.insertNode(document.createTextNode(convertedText))
+    selectionData.range.deleteContents();
+    selectionData.range.insertNode(document.createTextNode(convertedText));
   }
-  window.getSelection().removeAllRanges()
-  resetUIAndSelectionState()
+  window.getSelection().removeAllRanges();
+  resetUIAndSelectionState();
 }
 
 export function handleDocumentClick(event) {
-  const selectionLength = window.getSelection().toString().length
-  const isInsidePanel = !!event.target.closest(`.${SELECTOR_PANEL}`)
-  const isInsideChangeBtn = !!event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`)
-  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden')
-  const isPanelDisplayed = !panel.classList.contains('hidden')
+  const selectionLength = window.getSelection().toString().length;
+  const isInsidePanel = !!event.target.closest(`.${SELECTOR_PANEL}`);
+  const isInsideChangeBtn = !!event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`);
+  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden');
+  const isPanelDisplayed = !panel.classList.contains('hidden');
 
   if (
     (isPanelDisplayed || isChangeBtnDisplayed) &&
@@ -99,26 +104,26 @@ export function handleDocumentClick(event) {
     !isInsideChangeBtn &&
     selectionLength === 0
   ) {
-    resetUIAndSelectionState()
+    resetUIAndSelectionState();
   }
 }
 
 export function handleTyping(event) {
   if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)) {
     //JS magic: wait until browser applies selection (Ctrl+A), then read it
-    setTimeout(() => handleSelection(event), 0)
-    return
+    setTimeout(() => handleSelection(event), 0);
+    return;
   }
 
   //show panel on Enter type
-  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden')
+  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden');
 
   if (isChangeBtnDisplayed && event.code === 'Enter') {
-    showConversionPanel(event)
+    showConversionPanel(event);
   }
 
   //fix case when user Ctrl+A and after keep typing
-  if (event.code && event.code !== 'Enter') {
-    resetUIAndSelectionState()
+  if (event.code && event.code !== 'Enter' && event.code !== 'Tab') {
+    resetUIAndSelectionState();
   }
 }

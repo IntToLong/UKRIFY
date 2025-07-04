@@ -71,27 +71,27 @@ const EN_TO_UA_MAP = {
   '>': 'Ю',
   '?': ',',
   ' ': ' ',
-}
+};
 
-const SELECTOR_PANEL = 'popup-panel'
-const SELECTOR_TEXT = 'popup-text'
+const SELECTOR_PANEL = 'popup-panel';
+const SELECTOR_TEXT = 'popup-text';
 
-const SELECTOR_CHANGE_ICON = 'change-icon'
-const SELECTOR_COPY_ICON = 'copy-icon'
-const SELECTOR_CLOSE_ICON = 'close-icon'
-const SELECTOR_REPLACE_ICON = 'replace-icon'
+const SELECTOR_CHANGE_ICON = 'change-icon';
+const SELECTOR_COPY_ICON = 'copy-icon';
+const SELECTOR_CLOSE_ICON = 'close-icon';
+const SELECTOR_REPLACE_ICON = 'replace-icon';
 
-const SELECTOR_ACTIONS = 'actions'
-const SELECTOR_BUTTON = 'button'
-const SELECTOR_CLOSE_BUTTON = 'close-btn'
-const SELECTOR_REPLACE_BUTTON = 'replace-btn'
-const SELECTOR_CHANGE_BUTTON = 'change-btn'
+const SELECTOR_ACTIONS = 'actions';
+const SELECTOR_BUTTON = 'button';
+const SELECTOR_CLOSE_BUTTON = 'close-btn';
+const SELECTOR_REPLACE_BUTTON = 'replace-btn';
+const SELECTOR_CHANGE_BUTTON = 'change-btn';
 
-const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.svg')
-const ICON_SRC_COPY = chrome.runtime.getURL('img/copy.svg')
-const ICON_SRC_CHECK = chrome.runtime.getURL('img/check.svg')
-const ICON_SRC_REPLACE = chrome.runtime.getURL('img/replace.svg')
-const ICON_SRC_CLOSE = chrome.runtime.getURL('img/close.svg')
+const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.svg');
+const ICON_SRC_COPY = chrome.runtime.getURL('img/copy.svg');
+const ICON_SRC_CHECK = chrome.runtime.getURL('img/check.svg');
+const ICON_SRC_REPLACE = chrome.runtime.getURL('img/replace.svg');
+const ICON_SRC_CLOSE = chrome.runtime.getURL('img/close.svg');
 
 export {
   EN_TO_UA_MAP,
@@ -111,4 +111,4 @@ export {
   ICON_SRC_CHECK,
   ICON_SRC_REPLACE,
   ICON_SRC_CLOSE,
-}
+};
