@@ -13,6 +13,7 @@ import {
   SELECTOR_BUTTON,
   SELECTOR_REPLACE_BUTTON,
   SELECTOR_CLOSE_BUTTON,
+  SELECTOR_CHANGE_BUTTON,
 } from './constants.js'
 
 export function _createUIElements() {
@@ -42,6 +43,10 @@ export function _createUIElements() {
   closeIcon.src = ICON_SRC_CLOSE
   closeIcon.alt = 'Cross icon'
 
+  const changeBtn = document.createElement('button')
+  changeBtn.className = SELECTOR_CHANGE_BUTTON
+  changeBtn.appendChild(changeIcon)
+
   const actionsContainer = document.createElement('div')
   actionsContainer.className = SELECTOR_ACTIONS
 
@@ -67,12 +72,15 @@ export function _createUIElements() {
   panel.appendChild(closeBtn)
   panel.appendChild(changedText)
   panel.appendChild(actionsContainer)
-  document.body.appendChild(changeIcon)
+  document.body.appendChild(changeBtn)
   document.body.appendChild(panel)
+
+  //--- set buttons type to 'button'
+  ;[changeBtn, closeBtn, copyBtn, replaceBtn].map((el) => el.setAttribute('type', 'button'))
 
   // --- Initial State ---
   panel.classList.add('hidden')
-  changeIcon.classList.add('hidden')
+  changeBtn.classList.add('hidden')
 
   return {
     panel,
@@ -84,6 +92,7 @@ export function _createUIElements() {
     copyBtn,
     replaceBtn,
     closeBtn,
+    changeBtn,
   }
 }
 
@@ -97,4 +106,5 @@ export const {
   copyBtn,
   replaceBtn,
   closeBtn,
-} = _createUIElements();
+  changeBtn,
+} = _createUIElements()

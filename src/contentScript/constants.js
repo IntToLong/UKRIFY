@@ -85,6 +85,7 @@ const SELECTOR_ACTIONS = 'actions'
 const SELECTOR_BUTTON = 'button'
 const SELECTOR_CLOSE_BUTTON = 'close-btn'
 const SELECTOR_REPLACE_BUTTON = 'replace-btn'
+const SELECTOR_CHANGE_BUTTON = 'change-btn'
 
 const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.svg')
 const ICON_SRC_COPY = chrome.runtime.getURL('img/copy.svg')
@@ -104,6 +105,7 @@ export {
   SELECTOR_BUTTON,
   SELECTOR_CLOSE_BUTTON,
   SELECTOR_REPLACE_BUTTON,
+  SELECTOR_CHANGE_BUTTON,
   ICON_SRC_NOTEBOOK,
   ICON_SRC_COPY,
   ICON_SRC_CHECK,

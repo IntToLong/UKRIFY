@@ -24,11 +24,32 @@
 
 .change-icon {
   cursor: pointer;
-  display: block;
-  position: absolute;
-  transition: all 0.2s ease;
-  width: 30px;
+  width: 35px;
   z-index: 9999;
+}
+
+.change-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  height: 35px;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  transition: all 0.2s ease;
+  width: 35px;
+  z-index: 9999;
+}
+
+.change-btn:focus {
+  border: none !important;
+  outline: none !important;
+}
+
+.change-btn:focus-visible {
+  border: none !important;
+  outline: none !important;
 }
 
 .close-icon {

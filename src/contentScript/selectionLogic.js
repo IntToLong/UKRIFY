@@ -1,5 +1,5 @@
-import { SELECTOR_PANEL, SELECTOR_CHANGE_ICON } from './constants'
-import { panel, changeIcon, changedText } from './uiElements.js'
+import { SELECTOR_PANEL, SELECTOR_CHANGE_BUTTON } from './constants'
+import { panel, changedText, changeBtn } from './uiElements.js'
 import { isContentEditableElement } from './utils.js'
 
 export const selectionData = {
@@ -12,7 +12,7 @@ export const selectionData = {
 export function handleSelection(event) {
   if (
     event.target.closest(`.${SELECTOR_PANEL}`) ||
-    event.target.closest(`.${SELECTOR_CHANGE_ICON}`)
+    event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`)
   ) {
     return
   }
@@ -28,7 +28,7 @@ export function handleSelection(event) {
   selectionData.selectedText = selection.toString()
 
   if (selectionData.selectedText.trim().length === 0) {
-    changeIcon.classList.add('hidden')
+    changeBtn.classList.add('hidden')
     return
   }
 
@@ -71,35 +71,36 @@ export function handleSelection(event) {
     return
   }
 
-  changedText.innerText = ''
-  panel.classList.add('hidden')
-  changeIcon.classList.remove('hidden')
-
   //prevent icon overflow
-  const bottomEdge = window.innerHeight - changeIcon.offsetHeight
+  const bottomEdge = window.innerHeight - changeBtn.offsetHeight
 
   if (
     selectionData.targetElement.closest('input') ||
     selectionData.targetElement.closest('textarea')
   ) {
     selectionData.rect = selectionData.targetElement.getBoundingClientRect()
-    changeIcon.style.left = window.scrollX + selectionData.rect.left + 'px'
+    changeBtn.style.left = window.scrollX + selectionData.rect.left + 'px'
   } else {
-    changeIcon.style.left =
+    changeBtn.style.left =
       window.scrollX + selectionData.rect.left + selectionData.rect.width + 'px'
   }
 
-  changeIcon.style.top =
+  changeBtn.style.top =
     selectionData.rect.top + selectionData.rect.height > bottomEdge
       ? window.scrollY + bottomEdge + 'px'
       : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px'
+
+  changedText.innerText = ''
+  panel.classList.add('hidden')
+  changeBtn.classList.remove('hidden')
+  changeBtn.focus()
 }
 
 export function resetUIAndSelectionState() {
   changedText.innerText = ''
 
   panel.classList.add('hidden')
-  changeIcon.classList.add('hidden')
+  changeBtn.classList.add('hidden')
 
   selectionData.selectedText = null
   selectionData.rect = null

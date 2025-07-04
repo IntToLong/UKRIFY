@@ -3,9 +3,9 @@ import {
   ICON_SRC_CHECK,
   ICON_SRC_COPY,
   SELECTOR_PANEL,
-  SELECTOR_CHANGE_ICON,
+  SELECTOR_CHANGE_BUTTON,
 } from './constants.js'
-import { changedText, copyIcon, panel, changeIcon, replaceBtn } from './uiElements.js'
+import { changedText, copyIcon, panel, replaceBtn, changeBtn } from './uiElements.js'
 import { selectionData, handleSelection, resetUIAndSelectionState } from './selectionLogic.js'
 
 export function showConversionPanel(event) {
@@ -15,7 +15,7 @@ export function showConversionPanel(event) {
   let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('')
   changedText.innerText = convertedText
 
-  changeIcon.classList.add('hidden')
+  changeBtn.classList.add('hidden')
 
   if (changedText.innerText.trim().length > 0) {
     panel.classList.remove('hidden')
@@ -89,27 +89,34 @@ export function handleReplaceClick(event) {
 export function handleDocumentClick(event) {
   const selectionLength = window.getSelection().toString().length
   const isInsidePanel = !!event.target.closest(`.${SELECTOR_PANEL}`)
-  const isInsideChangeIcon = !!event.target.closest(`.${SELECTOR_CHANGE_ICON}`)
-  const isChangeIconDisplayed = !changeIcon.classList.contains('hidden')
+  const isInsideChangeBtn = !!event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`)
+  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden')
   const isPanelDisplayed = !panel.classList.contains('hidden')
 
   if (
-    (isPanelDisplayed || isChangeIconDisplayed) &&
+    (isPanelDisplayed || isChangeBtnDisplayed) &&
     !isInsidePanel &&
-    !isInsideChangeIcon &&
+    !isInsideChangeBtn &&
     selectionLength === 0
   ) {
     resetUIAndSelectionState()
   }
 }
 
-export function handleInputDeleting(event) {
+export function handleTyping(event) {
   if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)) {
     //JS magic: wait until browser applies selection (Ctrl+A), then read it
     setTimeout(() => handleSelection(event), 0)
     return
   }
-  
+
+  //show panel on Enter type
+  const isChangeBtnDisplayed = !changeBtn.classList.contains('hidden')
+
+  if (isChangeBtnDisplayed && event.code === 'Enter') {
+    showConversionPanel(event)
+  }
+
   //fix case when user Ctrl+A and after keep typing
   if (event.code && event.code !== 'Enter') {
     resetUIAndSelectionState()
