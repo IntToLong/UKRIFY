@@ -1,6 +1,4 @@
-import { SELECTOR_PANEL, SELECTOR_CHANGE_BUTTON } from './constants';
-import { panel, changedText, changeBtn } from './uiElements.js';
-import { isContentEditableElement } from './utils.js';
+import { SELECTOR_PANEL, SELECTOR_CHANGE_BUTTON } from './constants.js';
 
 export const selectionData = {
   selectedText: null,
@@ -9,7 +7,10 @@ export const selectionData = {
   targetElement: null,
 };
 
-export function handleSelection(event) {
+export function handleSelection(
+  event,
+  { uiElements, selectionData, resetUIAndSelectionState, isContentEditableElement },
+) {
   if (
     event.target.closest(`.${SELECTOR_PANEL}`) ||
     event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`)
@@ -21,14 +22,14 @@ export function handleSelection(event) {
 
   //prevent from selection fires if there's no selection or if the selection is a caret
   if (selection.rangeCount === 0) {
-    resetUIAndSelectionState();
+    resetUIAndSelectionState({ uiElements, selectionData });
     return;
   }
 
   selectionData.selectedText = selection.toString();
 
   if (selectionData.selectedText.trim().length === 0) {
-    changeBtn.classList.add('hidden');
+    uiElements.changeBtn.classList.add('hidden');
     return;
   }
 
@@ -67,47 +68,46 @@ export function handleSelection(event) {
     !selectionData.targetElement.closest('textarea') &&
     !isContentEditableElement(selectionData.targetElement)
   ) {
-    resetUIAndSelectionState();
+    resetUIAndSelectionState({ uiElements, selectionData });
     return;
   }
 
   //prevent icon overflow
-  const bottomEdge = window.innerHeight - changeBtn.offsetHeight;
+  const bottomEdge = window.innerHeight - uiElements.changeBtn.offsetHeight;
 
   if (
     selectionData.targetElement.closest('input') ||
     selectionData.targetElement.closest('textarea')
   ) {
     selectionData.rect = selectionData.targetElement.getBoundingClientRect();
-    changeBtn.style.left = window.scrollX + selectionData.rect.left + 'px';
+    uiElements.changeBtn.style.left = window.scrollX + selectionData.rect.left + 'px';
   } else {
-    changeBtn.style.left =
+    uiElements.changeBtn.style.left =
       window.scrollX + selectionData.rect.left + selectionData.rect.width + 'px';
   }
 
-  changeBtn.style.top =
+  uiElements.changeBtn.style.top =
     selectionData.rect.top + selectionData.rect.height > bottomEdge
       ? window.scrollY + bottomEdge + 'px'
       : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px';
 
-  //test can I use resetUIAndSelectionState here
-  changedText.innerText = '';
-  panel.classList.add('hidden');
-  panel.setAttribute('aria-hidden', 'true');
-  changeBtn.classList.remove('hidden');
-  changeBtn.setAttribute('aria-hidden', 'false');
+  uiElements.changedText.innerText = '';
+  uiElements.panel.classList.add('hidden');
+  uiElements.panel.setAttribute('aria-hidden', 'true');
+  uiElements.changeBtn.classList.remove('hidden');
+  uiElements.changeBtn.setAttribute('aria-hidden', 'false');
 
   //problem: after calling changeBtn.focus(), the selected text is no longer highlighted
   //changeBtn.focus();
 }
 
-export function resetUIAndSelectionState() {
-  changedText.innerText = '';
+export function resetUIAndSelectionState({ uiElements, selectionData }) {
+  uiElements.changedText.innerText = '';
 
-  panel.classList.add('hidden');
-  panel.setAttribute('aria-hidden', 'true');
-  changeBtn.classList.add('hidden');
-  changeBtn.setAttribute('aria-hidden', 'true');
+  uiElements.panel.classList.add('hidden');
+  uiElements.panel.setAttribute('aria-hidden', 'true');
+  uiElements.changeBtn.classList.add('hidden');
+  uiElements.changeBtn.setAttribute('aria-hidden', 'true');
 
   selectionData.selectedText = null;
   selectionData.rect = null;

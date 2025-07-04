@@ -48,7 +48,7 @@ export function _createUIElements() {
   const changeBtn = document.createElement('button');
   changeBtn.className = SELECTOR_CHANGE_BUTTON;
   changeBtn.appendChild(changeIcon);
-  changeBtn.setAttribute('aria-label', 'Open text conversion panel'); 
+  changeBtn.setAttribute('aria-label', 'Open text conversion panel');
   changeBtn.setAttribute('aria-hidden', 'true');
 
   const actionsContainer = document.createElement('div');
@@ -100,15 +100,4 @@ export function _createUIElements() {
   };
 }
 
-export const {
-  panel,
-  changedText,
-  changeIcon,
-  copyIcon,
-  replaceIcon,
-  closeIcon,
-  copyBtn,
-  replaceBtn,
-  closeBtn,
-  changeBtn,
-} = _createUIElements();
+export const uiElements = _createUIElements();
