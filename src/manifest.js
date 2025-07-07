@@ -1,7 +1,7 @@
-import { defineManifest } from '@crxjs/vite-plugin'
-import packageData from '../package.json' assert { type: 'json' }
+import { defineManifest } from '@crxjs/vite-plugin';
+import packageData from '../package.json' assert { type: 'json' };
 
-const isDev = process.env.NODE_ENV == 'development'
+const isDev = process.env.NODE_ENV == 'development';
 
 export default defineManifest({
   name: `${packageData.displayName || packageData.name}${isDev ? ` ➡️ Dev` : ''}`,
@@ -15,6 +15,14 @@ export default defineManifest({
     38: 'icons/logo-38.png',
     48: 'icons/logo-48.png',
     128: 'icons/logo-128.png',
+  },
+  action: {
+    default_icon: {
+      16: 'icons/logo-16.png',
+      32: 'icons/logo-32.png',
+      48: 'icons/logo-48.png',
+      128: 'icons/logo-128.png',
+    },
   },
   content_scripts: [
     {
@@ -30,4 +38,4 @@ export default defineManifest({
     },
   ],
   permissions: ['storage', 'activeTab', 'clipboardWrite'],
-})
+});

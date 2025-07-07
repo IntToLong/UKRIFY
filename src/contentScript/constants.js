@@ -73,19 +73,19 @@ const EN_TO_UA_MAP = {
   ' ': ' ',
 };
 
-const SELECTOR_PANEL = 'popup-panel';
-const SELECTOR_TEXT = 'popup-text';
+const SELECTOR_PANEL = 'ukrify-popup-panel';
+const SELECTOR_TEXT = 'ukrify-popup-text';
 
-const SELECTOR_CHANGE_ICON = 'change-icon';
-const SELECTOR_COPY_ICON = 'copy-icon';
-const SELECTOR_CLOSE_ICON = 'close-icon';
-const SELECTOR_REPLACE_ICON = 'replace-icon';
+const SELECTOR_CHANGE_ICON = 'ukrify-change-icon';
+const SELECTOR_COPY_ICON = 'ukrify-copy-icon';
+const SELECTOR_CLOSE_ICON = 'ukrify-close-icon';
+const SELECTOR_REPLACE_ICON = 'ukrify-replace-icon';
 
-const SELECTOR_ACTIONS = 'actions';
-const SELECTOR_BUTTON = 'button';
-const SELECTOR_CLOSE_BUTTON = 'close-btn';
-const SELECTOR_REPLACE_BUTTON = 'replace-btn';
-const SELECTOR_CHANGE_BUTTON = 'change-btn';
+const SELECTOR_ACTIONS = 'ukrify-actions';
+const SELECTOR_BUTTON = 'ukrify-button';
+const SELECTOR_CLOSE_BUTTON = 'ukrify-close-btn';
+const SELECTOR_REPLACE_BUTTON = 'ukrify-replace-btn';
+const SELECTOR_CHANGE_BUTTON = 'ukrify-change-btn';
 
 const ICON_SRC_NOTEBOOK = chrome.runtime.getURL('img/notebook.svg');
 const ICON_SRC_COPY = chrome.runtime.getURL('img/copy.svg');

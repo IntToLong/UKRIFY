@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); */
 
-.popup-panel {
+.ukrify-popup-panel {
   align-items: flex-start;
   background-color: #ffffff;
   border-radius: 16px;
@@ -10,7 +10,7 @@
   color: #333;
   display: flex;
   flex-direction: column;
-  font-family: 'Inter', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   gap: 20px;
   justify-content: space-between;
   max-width: 30%;
@@ -22,13 +22,7 @@
   z-index: 9999;
 }
 
-.change-icon {
-  cursor: pointer;
-  width: 35px;
-  z-index: 9999;
-}
-
-.change-btn {
+.ukrify-change-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -42,38 +36,44 @@
   z-index: 9999;
 }
 
-.change-btn:focus {
+.ukrify-change-btn:focus {
   border: none !important;
   outline: none !important;
 }
 
-.change-btn:focus-visible {
+.ukrify-change-btn:focus-visible {
   border: none !important;
   outline: none !important;
 }
 
-.close-icon {
+.ukrify-change-btn .ukrify-change-icon {
+  cursor: pointer;
+  width: 35px;
+  z-index: 9999;
+}
+
+.ukrify-popup-panel .ukrify-close-icon {
   transition: transform 0.5s ease;
   width: 26px;
 }
 
-.close-icon:hover {
+.ukrify-popup-panel .ukrify-close-btn .ukrify-close-icon:hover {
   transform: rotate(90deg);
 }
 
-.copy-icon,
-.replace-icon {
+.ukrify-button .ukrify-copy-icon,
+.ukrify-replace-btn .ukrify-replace-icon {
   width: 18px;
 }
 
-.actions {
+.ukrify-popup-panel .ukrify-actions {
   display: flex;
   gap: 12px;
   justify-content: space-between;
   width: 100%;
 }
 
-.button {
+.ukrify-popup-panel .ukrify-actions .ukrify-button {
   align-items: center;
   background-color: #ffffff;
   border-radius: 12px;
@@ -90,33 +90,43 @@
   width: 100%;
 }
 
-.button:hover {
+.ukrify-popup-panel .ukrify-actions .ukrify-button:hover {
   background-color: #f4f4f5;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   color: #4d4b4b;
 }
 
-.replace-btn {
+.ukrify-popup-panel .ukrify-actions .ukrify-replace-btn {
+  align-items: center;
   background: linear-gradient(90deg, #ffe259, #ffa751);
+  border-radius: 12px;
   border: none;
   box-shadow: 0 4px 12px rgba(255, 174, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  font-size: 15px;
+  font-weight: 600;
   font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px 20px;
+  width: 100%;
   transition:
     box-shadow 0.2s ease-in-out,
     transform 0.1s ease-in-out;
 }
 
-.replace-btn:hover {
+.ukrify-popup-panel .ukrify-actions .ukrify-replace-btn:hover {
   box-shadow: 0 8px 12px rgba(255, 174, 0, 0.288);
   color: #000;
   transform: translateY(-2px);
 }
 
-.replace-btn:active {
+.ukrify-popup-panel .ukrify-actions .ukrify-replace-btn:active {
   transform: translateY(2px);
 }
 
-.close-btn {
+.ukrify-popup-panel .ukrify-close-btn {
   align-self: flex-end;
   background: none;
   border: none;
@@ -125,7 +135,7 @@
   padding: 0;
 }
 
-.popup-text {
+.ukrify-popup-panel .ukrify-popup-text {
   background-color: #f9f9f9;
   border-radius: 12px;
   border: 1px solid #dcdcdc;
@@ -140,16 +150,16 @@
   width: 100%;
 }
 
-.hidden {
-  display: none;
+.ukrify-hidden {
+  display: none !important;
 }
 
 @media (max-width: 800px) {
-  .popup-panel {
+  .ukrify-popup-panel {
     padding: 15px;
   }
 
-  .actions {
+  .ukrify-popup-panel .ukrify-actions {
     flex-direction: column;
   }
 }

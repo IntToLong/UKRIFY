@@ -63,8 +63,7 @@ export function _createUIElements() {
 
   const replaceBtn = document.createElement('button');
   const replaceButtonName = document.createTextNode('Replace');
-  replaceBtn.className = SELECTOR_BUTTON;
-  replaceBtn.classList.add(SELECTOR_REPLACE_BUTTON);
+  replaceBtn.className = SELECTOR_REPLACE_BUTTON;
   replaceBtn.appendChild(replaceIcon);
   replaceBtn.appendChild(replaceButtonName);
   actionsContainer.appendChild(replaceBtn);
@@ -83,8 +82,8 @@ export function _createUIElements() {
   [changeBtn, closeBtn, copyBtn, replaceBtn].map((el) => el.setAttribute('type', 'button'));
 
   // --- Initial State ---
-  panel.classList.add('hidden');
-  changeBtn.classList.add('hidden');
+  panel.classList.add('ukrify-hidden');
+  changeBtn.classList.add('ukrify-hidden');
 
   return {
     panel,
@@ -94,6 +93,7 @@ export function _createUIElements() {
     replaceIcon,
     closeIcon,
     copyBtn,
+    actionsContainer,
     replaceBtn,
     closeBtn,
     changeBtn,

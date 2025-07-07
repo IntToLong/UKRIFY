@@ -6,30 +6,37 @@ import {
   SELECTOR_CHANGE_BUTTON,
 } from './constants.js';
 
+import { copyToClipboard } from './utils.js';
+
 export function showConversionPanel(event, { uiElements, selectionData }) {
   event.stopPropagation();
 
-  let arrFromSelection = selectionData.selectedText.trim().split('');
+  const selectedText = selectionData.selectedText.trim();
+  if (selectedText === 0) {
+    return;
+  }
+
+  let arrFromSelection = selectedText.split('');
   let convertedText = arrFromSelection.map((el) => EN_TO_UA_MAP[el] || el).join('');
   uiElements.changedText.innerText = convertedText;
 
-  uiElements.changeBtn.classList.add('hidden');
+  uiElements.changeBtn.classList.add('ukrify-hidden');
   uiElements.changeBtn.setAttribute('aria-hidden', 'true');
 
   if (uiElements.changedText.innerText.trim().length > 0) {
-    uiElements.panel.classList.remove('hidden');
+    uiElements.panel.classList.remove('ukrify-hidden');
     uiElements.panel.setAttribute('aria-hidden', 'false');
   } else {
-    uiElements.panel.classList.add('hidden');
+    uiElements.panel.classList.add('ukrify-hidden');
     uiElements.panel.setAttribute('aria-hidden', 'true');
   }
 
   //prevent "The input element's type ('email') does not support selection" error
   if (selectionData.targetElement.type === 'email') {
-    uiElements.replaceBtn.classList.add('hidden');
+    uiElements.replaceBtn.classList.add('ukrify-hidden');
     uiElements.replaceBtn.setAttribute('aria-hidden', 'true');
   } else {
-    uiElements.replaceBtn.classList.remove('hidden');
+    uiElements.replaceBtn.classList.remove('ukrify-hidden');
     uiElements.replaceBtn.setAttribute('aria-hidden', 'false');
   }
 
@@ -58,7 +65,7 @@ export async function handleCopyClick(
   if (!text) return;
 
   try {
-    await navigator.clipboard.writeText(text);
+    await copyToClipboard(text);
     console.log('Content copied to clipboard');
     uiElements.copyIcon.src = ICON_SRC_CHECK;
 
@@ -86,9 +93,9 @@ export function handleReplaceClick(event, { uiElements, selectionData, resetUIAn
   } else {
     selectionData.range.deleteContents();
     selectionData.range.insertNode(document.createTextNode(convertedText));
+    selectionData.targetElement?.focus();
+    resetUIAndSelectionState({ uiElements, selectionData });
   }
-  window.getSelection().removeAllRanges();
-  resetUIAndSelectionState({ uiElements, selectionData });
 }
 
 export function handleDocumentClick(
@@ -98,8 +105,8 @@ export function handleDocumentClick(
   const selectionLength = window.getSelection().toString().length;
   const isInsidePanel = !!event.target.closest(`.${SELECTOR_PANEL}`);
   const isInsideChangeBtn = !!event.target.closest(`.${SELECTOR_CHANGE_BUTTON}`);
-  const isChangeBtnDisplayed = !uiElements.changeBtn.classList.contains('hidden');
-  const isPanelDisplayed = !uiElements.panel.classList.contains('hidden');
+  const isChangeBtnDisplayed = !uiElements.changeBtn.classList.contains('ukrify-hidden');
+  const isPanelDisplayed = !uiElements.panel.classList.contains('ukrify-hidden');
 
   if (
     (isPanelDisplayed || isChangeBtnDisplayed) &&
@@ -122,22 +129,24 @@ export function handleTyping(
   },
 ) {
   if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)) {
-    //JS magic: wait until browser applies selection (Ctrl+A), then read it
-    setTimeout(
-      () =>
+    //wait until browser applies selection (Ctrl+A), then read it
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // runs *after* the next repaint
         handleSelection(event, {
           uiElements,
           selectionData,
           resetUIAndSelectionState,
           isContentEditableElement,
-        }),
-      0,
-    );
+        });
+      });
+    });
+
     return;
   }
 
   //show panel on Enter type
-  const isChangeBtnDisplayed = !uiElements.changeBtn.classList.contains('hidden');
+  const isChangeBtnDisplayed = !uiElements.changeBtn.classList.contains('ukrify-hidden');
 
   if (isChangeBtnDisplayed && event.code === 'Enter') {
     showConversionPanel(event, { uiElements, selectionData });

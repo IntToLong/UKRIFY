@@ -29,7 +29,7 @@ export function handleSelection(
   selectionData.selectedText = selection.toString();
 
   if (selectionData.selectedText.trim().length === 0) {
-    uiElements.changeBtn.classList.add('hidden');
+    uiElements.changeBtn.classList.add('ukrify-hidden');
     return;
   }
 
@@ -92,9 +92,9 @@ export function handleSelection(
       : window.scrollY + selectionData.rect.top + selectionData.rect.height + 'px';
 
   uiElements.changedText.innerText = '';
-  uiElements.panel.classList.add('hidden');
+  uiElements.panel.classList.add('ukrify-hidden');
   uiElements.panel.setAttribute('aria-hidden', 'true');
-  uiElements.changeBtn.classList.remove('hidden');
+  uiElements.changeBtn.classList.remove('ukrify-hidden');
   uiElements.changeBtn.setAttribute('aria-hidden', 'false');
 
   //problem: after calling changeBtn.focus(), the selected text is no longer highlighted
@@ -104,9 +104,9 @@ export function handleSelection(
 export function resetUIAndSelectionState({ uiElements, selectionData }) {
   uiElements.changedText.innerText = '';
 
-  uiElements.panel.classList.add('hidden');
+  uiElements.panel.classList.add('ukrify-hidden');
   uiElements.panel.setAttribute('aria-hidden', 'true');
-  uiElements.changeBtn.classList.add('hidden');
+  uiElements.changeBtn.classList.add('ukrify-hidden');
   uiElements.changeBtn.setAttribute('aria-hidden', 'true');
 
   selectionData.selectedText = null;
