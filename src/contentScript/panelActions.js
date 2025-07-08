@@ -41,7 +41,7 @@ export function showConversionPanel(event, { uiElements, selectionData }) {
   }
 
   //prevent panel overflow
-  const bottomEdge = window.innerHeight - uiElements.panel.offsetHeight;
+  const bottomEdge = window.innerHeight - uiElements.panel.scrollHeight;
 
   uiElements.panel.style.top =
     selectionData.rect.top + selectionData.rect.height >= bottomEdge
@@ -78,7 +78,10 @@ export async function handleCopyClick(
   }
 }
 
-export function handleReplaceClick(event, { uiElements, selectionData, resetUIAndSelectionState }) {
+export async function handleReplaceClick(
+  event,
+  { uiElements, selectionData, resetUIAndSelectionState },
+) {
   event.stopPropagation();
   const convertedText = uiElements.changedText.innerText;
   if (
@@ -90,11 +93,39 @@ export function handleReplaceClick(event, { uiElements, selectionData, resetUIAn
 
     selectionData.targetElement.setRangeText(convertedText, start, end, 'end');
     selectionData.targetElement.focus();
+    resetUIAndSelectionState({ uiElements, selectionData });
   } else {
     selectionData.range.deleteContents();
     selectionData.range.insertNode(document.createTextNode(convertedText));
     selectionData.targetElement?.focus();
-    resetUIAndSelectionState({ uiElements, selectionData });
+
+    //repaint DOM
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    let isTextInDocument = false;
+
+    let containerToCheck = selectionData.range.commonAncestorContainer;
+
+    if (containerToCheck && containerToCheck.nodeType === Node.TEXT_NODE) {
+      containerToCheck = containerToCheck.parentNode;
+    }
+
+    isTextInDocument = containerToCheck.innerText?.includes(convertedText);
+
+    if (!isTextInDocument) {
+      uiElements.replaceBtn.classList.add('ukrify-hidden');
+      uiElements.replaceBtn.setAttribute('aria-hidden', 'true');
+
+      uiElements.changedText.classList.add('ukrify-hidden');
+      uiElements.changedText.setAttribute('aria-hidden', 'true');
+
+      uiElements.errorMessage.classList.remove('ukrify-hidden');
+      uiElements.errorMessage.setAttribute('aria-hidden', 'false');
+
+      uiElements.copyBtn.focus();
+    } else {
+      resetUIAndSelectionState({ uiElements, selectionData });
+    }
   }
 }
 

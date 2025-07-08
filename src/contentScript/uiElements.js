@@ -14,13 +14,15 @@ import {
   SELECTOR_REPLACE_BUTTON,
   SELECTOR_CLOSE_BUTTON,
   SELECTOR_CHANGE_BUTTON,
+  SELECTOR_ERROR_MESSAGE,
+  SELECTOR_ERROR_ICON,
+  ICON_SRC_ERROR,
 } from './constants.js';
 
 export function _createUIElements() {
   const panel = document.createElement('div');
   panel.className = SELECTOR_PANEL;
   panel.setAttribute('role', 'dialog');
-  panel.setAttribute('aria-hidden', 'true');
 
   const changedText = document.createElement('p');
   changedText.className = SELECTOR_TEXT;
@@ -45,11 +47,15 @@ export function _createUIElements() {
   closeIcon.src = ICON_SRC_CLOSE;
   closeIcon.alt = 'Cross icon';
 
+  const errorIcon = document.createElement('img');
+  errorIcon.className = SELECTOR_ERROR_ICON;
+  errorIcon.src = ICON_SRC_ERROR;
+  errorIcon.alt = 'Error circle icon';
+
   const changeBtn = document.createElement('button');
   changeBtn.className = SELECTOR_CHANGE_BUTTON;
   changeBtn.appendChild(changeIcon);
   changeBtn.setAttribute('aria-label', 'Open text conversion panel');
-  changeBtn.setAttribute('aria-hidden', 'true');
 
   const actionsContainer = document.createElement('div');
   actionsContainer.className = SELECTOR_ACTIONS;
@@ -66,24 +72,38 @@ export function _createUIElements() {
   replaceBtn.className = SELECTOR_REPLACE_BUTTON;
   replaceBtn.appendChild(replaceIcon);
   replaceBtn.appendChild(replaceButtonName);
+  replaceBtn.setAttribute('aria-label', 'Replace incorrect text');
+  replaceBtn.setAttribute('aria-hidden', 'false');
   actionsContainer.appendChild(replaceBtn);
 
   const closeBtn = document.createElement('button');
   closeBtn.className = SELECTOR_CLOSE_BUTTON;
   closeBtn.appendChild(closeIcon);
 
+  const errorMessage = document.createElement('div');
+  errorMessage.className = SELECTOR_ERROR_MESSAGE;
+  errorMessage.appendChild(errorIcon);
+  ['Unable to insert text.', 'Please click \"Copy\" and paste it manually.'].forEach((el) => {
+    let newP = document.createElement('p');
+    newP.innerText = el;
+    errorMessage.append(newP);
+  });
+
   panel.appendChild(closeBtn);
+  panel.appendChild(errorMessage);
   panel.appendChild(changedText);
   panel.appendChild(actionsContainer);
   document.body.appendChild(changeBtn);
   document.body.appendChild(panel);
 
   //--- Set buttons type to 'button'
-  [changeBtn, closeBtn, copyBtn, replaceBtn].map((el) => el.setAttribute('type', 'button'));
+  [changeBtn, closeBtn, copyBtn, replaceBtn].forEach((el) => el.setAttribute('type', 'button'));
 
   // --- Initial State ---
-  panel.classList.add('ukrify-hidden');
-  changeBtn.classList.add('ukrify-hidden');
+  [panel, changeBtn, errorMessage].forEach((el) => {
+    el.classList.add('ukrify-hidden');
+    el.setAttribute('aria-hidden', 'true');
+  });
 
   return {
     panel,
@@ -92,6 +112,7 @@ export function _createUIElements() {
     copyIcon,
     replaceIcon,
     closeIcon,
+    errorMessage,
     copyBtn,
     actionsContainer,
     replaceBtn,

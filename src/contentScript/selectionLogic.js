@@ -73,7 +73,7 @@ export function handleSelection(
   }
 
   //prevent icon overflow
-  const bottomEdge = window.innerHeight - uiElements.changeBtn.offsetHeight;
+  const bottomEdge = window.innerHeight - uiElements.changeBtn.scrollHeight;
 
   if (
     selectionData.targetElement.closest('input') ||
@@ -106,8 +106,18 @@ export function resetUIAndSelectionState({ uiElements, selectionData }) {
 
   uiElements.panel.classList.add('ukrify-hidden');
   uiElements.panel.setAttribute('aria-hidden', 'true');
+
   uiElements.changeBtn.classList.add('ukrify-hidden');
   uiElements.changeBtn.setAttribute('aria-hidden', 'true');
+
+  uiElements.replaceBtn.classList.remove('ukrify-hidden');
+  uiElements.replaceBtn.setAttribute('aria-hidden', 'false');
+
+  uiElements.errorMessage.classList.add('ukrify-hidden');
+  uiElements.errorMessage.setAttribute('aria-hidden', 'true');
+
+  uiElements.changedText.classList.remove('ukrify-hidden');
+  uiElements.changedText.setAttribute('aria-hidden', 'false');
 
   selectionData.selectedText = null;
   selectionData.rect = null;
