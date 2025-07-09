@@ -1,6 +1,6 @@
 import { uiElements } from './uiElements.js';
 
-import { isContentEditableElement } from './utils.js';
+import { isContentEditableElement, getHiddenElementHeight, copyToClipboard } from './utils.js';
 
 import { handleSelection, resetUIAndSelectionState, selectionData } from './selectionLogic.js';
 
@@ -17,13 +17,13 @@ import './styles.css';
 // --- Event Handlers ---
 // used 'mouseup' on changeIcon instead of 'click' event to ensure proper functionality within Gmail's "New Message" iframe.
 uiElements.changeBtn.addEventListener('mouseup', (event) =>
-  showConversionPanel(event, { uiElements, selectionData }),
+  showConversionPanel(event, { uiElements, selectionData, getHiddenElementHeight }),
 );
 uiElements.copyBtn.addEventListener('click', (event) =>
-  handleCopyClick(event, { uiElements, resetUIAndSelectionState, selectionData }),
+  handleCopyClick(event, { uiElements, resetUIAndSelectionState, selectionData, copyToClipboard }),
 );
 uiElements.replaceBtn.addEventListener('click', (event) =>
-  handleReplaceClick(event, {uiElements, selectionData, resetUIAndSelectionState}),
+  handleReplaceClick(event, {uiElements, selectionData, resetUIAndSelectionState }),
 );
 uiElements.closeBtn.addEventListener('click', () =>
   resetUIAndSelectionState({ uiElements, selectionData }),
@@ -35,6 +35,7 @@ document.addEventListener('dblclick', (event) =>
     selectionData,
     resetUIAndSelectionState,
     isContentEditableElement,
+    getHiddenElementHeight,
   }),
 );
 document.addEventListener('mouseup', (event) =>
@@ -43,6 +44,7 @@ document.addEventListener('mouseup', (event) =>
     selectionData,
     resetUIAndSelectionState,
     isContentEditableElement,
+    getHiddenElementHeight,
   }),
 );
 document.addEventListener('click', (event) =>
@@ -55,5 +57,6 @@ document.addEventListener('keydown', (event) =>
     handleSelection,
     resetUIAndSelectionState,
     isContentEditableElement,
+    getHiddenElementHeight,
   }),
 );

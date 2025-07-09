@@ -1,14 +1,13 @@
 import {
   EN_TO_UA_MAP,
+  BOTTOM_ELEMENT_OFFSET,
   ICON_SRC_CHECK,
   ICON_SRC_COPY,
   SELECTOR_PANEL,
   SELECTOR_CHANGE_BUTTON,
 } from './constants.js';
 
-import { copyToClipboard } from './utils.js';
-
-export function showConversionPanel(event, { uiElements, selectionData }) {
+export function showConversionPanel(event, { uiElements, selectionData, getHiddenElementHeight }) {
   event.stopPropagation();
 
   const selectedText = selectionData.selectedText.trim();
@@ -41,7 +40,8 @@ export function showConversionPanel(event, { uiElements, selectionData }) {
   }
 
   //prevent panel overflow
-  const bottomEdge = window.innerHeight - uiElements.panel.scrollHeight;
+  const bottomEdge =
+    window.innerHeight - getHiddenElementHeight(uiElements.panel) - BOTTOM_ELEMENT_OFFSET;
 
   uiElements.panel.style.top =
     selectionData.rect.top + selectionData.rect.height >= bottomEdge
@@ -57,7 +57,7 @@ export function showConversionPanel(event, { uiElements, selectionData }) {
 
 export async function handleCopyClick(
   event,
-  { uiElements, resetUIAndSelectionState, selectionData },
+  { uiElements, resetUIAndSelectionState, selectionData, copyToClipboard },
 ) {
   event.stopPropagation();
 
@@ -157,6 +157,7 @@ export function handleTyping(
     handleSelection,
     resetUIAndSelectionState,
     isContentEditableElement,
+    getHiddenElementHeight,
   },
 ) {
   if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)) {
@@ -169,6 +170,7 @@ export function handleTyping(
           selectionData,
           resetUIAndSelectionState,
           isContentEditableElement,
+          getHiddenElementHeight,
         });
       });
     });

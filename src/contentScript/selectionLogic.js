@@ -1,4 +1,4 @@
-import { SELECTOR_PANEL, SELECTOR_CHANGE_BUTTON } from './constants.js';
+import { BOTTOM_ELEMENT_OFFSET, SELECTOR_PANEL, SELECTOR_CHANGE_BUTTON } from './constants.js';
 
 export const selectionData = {
   selectedText: null,
@@ -9,7 +9,13 @@ export const selectionData = {
 
 export function handleSelection(
   event,
-  { uiElements, selectionData, resetUIAndSelectionState, isContentEditableElement },
+  {
+    uiElements,
+    selectionData,
+    resetUIAndSelectionState,
+    isContentEditableElement,
+    getHiddenElementHeight,
+  },
 ) {
   if (
     event.target.closest(`.${SELECTOR_PANEL}`) ||
@@ -73,7 +79,8 @@ export function handleSelection(
   }
 
   //prevent icon overflow
-  const bottomEdge = window.innerHeight - uiElements.changeBtn.scrollHeight;
+  const bottomEdge =
+    window.innerHeight - getHiddenElementHeight(uiElements.changeBtn) - BOTTOM_ELEMENT_OFFSET;
 
   if (
     selectionData.targetElement.closest('input') ||

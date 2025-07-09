@@ -73,6 +73,8 @@ const EN_TO_UA_MAP = {
   ' ': ' ',
 };
 
+const BOTTOM_ELEMENT_OFFSET = 5;
+
 const SELECTOR_PANEL = 'ukrify-popup-panel';
 const SELECTOR_TEXT = 'ukrify-popup-text';
 
@@ -98,6 +100,7 @@ const ICON_SRC_ERROR = chrome.runtime.getURL('img/error-circle.svg');
 
 export {
   EN_TO_UA_MAP,
+  BOTTOM_ELEMENT_OFFSET,
   SELECTOR_PANEL,
   SELECTOR_TEXT,
   SELECTOR_CHANGE_ICON,
