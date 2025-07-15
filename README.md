@@ -7,8 +7,8 @@ Save time, skip the retyping, and fix your text instantly with just one click.
 
 ## Overview
 
-Are you tired of accidentally typing Ukrainian words with your keyboard set to English layout?
-**UKRIFY** is a lightweight Chrome extension designed specifically for bilingual keyboard users to quickly convert text typed in the wrong layout.
+Are you tired of accidentally typing Ukrainian words with your keyboard set to English layout?<br>
+**UKRIFY** is a lightweight Chrome extension designed specifically for bilingual keyboard users to quickly convert text typed in the wrong layout.<br>
 Forget deleting and retyping — simply highlight your text, and UKRIFY instantly transforms it from English letters to proper Ukrainian Cyrillic.
 
 ---
