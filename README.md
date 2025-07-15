@@ -1,6 +1,6 @@
 # UKRIFY – Chrome Extension
 
-> **No more “ghbdtn” when you meant “привіт”!**  
+> **No more “ghbdsn” when you meant “привіт”!**  
 Save time, skip the retyping, and fix your text instantly with just one click.
 
 <img width="1280" height="800" alt="img" src="https://github.com/user-attachments/assets/58a5e09b-1100-4ba4-8965-1e98b932f4fb" />
