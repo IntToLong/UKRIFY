@@ -3,7 +3,7 @@
 > **No more “ghbdtn” when you meant “привіт”!**  
 Save time, skip the retyping, and fix your text instantly with just one click.
 
-<img width="1280" height="800" alt="img" src="https://github.com/user-attachments/assets/2f035736-7848-4162-8e63-a5c2e28d562e" />
+<img width="1280" height="800" alt="img" src="https://github.com/user-attachments/assets/3dc75444-fd28-4999-bccb-b36c5f4735e2" />
 
 ## Overview
 
