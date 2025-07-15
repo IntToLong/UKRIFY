@@ -97,7 +97,15 @@ export async function handleReplaceClick(
   } else {
     selectionData.range.deleteContents();
     selectionData.range.insertNode(document.createTextNode(convertedText));
-    selectionData.targetElement?.focus();
+
+    //reposition cursor after selection
+    let endNode = selectionData.range.endContainer;
+    let offset = selectionData.range.endOffset;
+    const newRange = document.createRange();
+    newRange.setStart(endNode, offset);
+    newRange.collapse(true);
+    window.getSelection().removeAllRanges();
+    document.getSelection().addRange(newRange);
 
     //repaint DOM
     await new Promise((resolve) => requestAnimationFrame(resolve));
