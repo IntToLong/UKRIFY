@@ -9,7 +9,12 @@ Save time, skip the retyping, and fix your text instantly with just one click.
 
 Are you tired of accidentally typing Ukrainian words with your keyboard set to English layout?<br>
 **UKRIFY** is a lightweight Chrome extension designed specifically for bilingual keyboard users to quickly convert text typed in the wrong layout.<br>
-Forget deleting and retyping — simply highlight your text, and UKRIFY instantly transforms it from English letters to proper Ukrainian Cyrillic.
+Forget deleting and retyping — simply highlight your text, and UKRIFY instantly transforms it from English letters to proper Ukrainian Cyrillic.<br>
+
+
+## Try UKRIFY
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-black?style=for-the-badge&logoColor=%23ffe259&label=Visit&labelColor=%23ffe259)](https://chromewebstore.google.com/detail/ukrify/fbfgapejodfnnmfijbhkgjakcmbfbcpo)
 
 ---
 
@@ -19,6 +24,17 @@ Forget deleting and retyping — simply highlight your text, and UKRIFY instantl
 - Choose to **copy** the corrected text to clipboard or **replace** it in-place  
 - Simple, intuitive user interface  
 - Lightweight and fast with zero hassle  
+
+---
+
+## Technologies
+
+- **Vanilla JavaScript**  
+- **Vanilla CSS**  
+- **Vite** (development and build tool)
+- **Chrome Extensions API** (integrate the extension with the Chrome browser environment)
+- **Clipboard API** (for secure and efficient text copying)  
+- **npm** (package manager)
 
 ---
 
@@ -66,7 +82,7 @@ npm run dev
 
 Big thanks to [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext) for providing an excellent boilerplate that includes:
 
-- a ready-to-use React + Vite setup,
+- a ready-to-use Vite setup,
 
 - built-in structure for common extension features like popup, options page, side panel, and more.
 
