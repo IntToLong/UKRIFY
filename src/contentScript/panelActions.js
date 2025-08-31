@@ -39,6 +39,16 @@ export function showConversionPanel(event, { uiElements, selectionData, getHidde
     uiElements.replaceBtn.setAttribute('aria-hidden', 'false');
   }
 
+  if (!uiElements.copyIcon.src) {
+    uiElements.copyIcon.src = uiElements.copyIcon.dataset.src;
+  }
+  if (!uiElements.replaceIcon.src) {
+    uiElements.replaceIcon.src = uiElements.replaceIcon.dataset.src;
+  }
+  if (!uiElements.closeIcon.src) {
+    uiElements.closeIcon.src = uiElements.closeIcon.dataset.src;
+  }
+
   //prevent panel overflow
   const bottomEdge =
     window.innerHeight - getHiddenElementHeight(uiElements.panel) - BOTTOM_ELEMENT_OFFSET;
@@ -127,6 +137,10 @@ export async function handleReplaceClick(
       uiElements.changedText.classList.add('ukrify-hidden');
       uiElements.changedText.setAttribute('aria-hidden', 'true');
 
+      if (!uiElements.errorIcon.src) {
+        uiElements.errorIcon.src = uiElements.errorIcon.dataset.src;
+      }
+      
       uiElements.errorMessage.classList.remove('ukrify-hidden');
       uiElements.errorMessage.setAttribute('aria-hidden', 'false');
 

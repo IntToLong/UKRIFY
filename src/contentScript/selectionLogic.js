@@ -78,6 +78,10 @@ export function handleSelection(
     return;
   }
 
+   if (!uiElements.changeIcon.src) {
+     uiElements.changeIcon.src = uiElements.changeIcon.dataset.src;
+   }
+
   //prevent icon overflow
   const bottomEdge =
     window.innerHeight - getHiddenElementHeight(uiElements.changeBtn) - BOTTOM_ELEMENT_OFFSET;

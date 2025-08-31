@@ -29,27 +29,27 @@ export function _createUIElements() {
 
   const changeIcon = document.createElement('img');
   changeIcon.className = SELECTOR_CHANGE_ICON;
-  changeIcon.src = ICON_SRC_NOTEBOOK;
+  changeIcon.setAttribute('data-src', ICON_SRC_NOTEBOOK);
   changeIcon.alt = 'Change text icon';
 
   const copyIcon = document.createElement('img');
   copyIcon.className = SELECTOR_COPY_ICON;
-  copyIcon.src = ICON_SRC_COPY;
+  copyIcon.setAttribute('data-src', ICON_SRC_COPY);
   copyIcon.alt = 'Copy to clipboard icon';
 
   const replaceIcon = document.createElement('img');
   replaceIcon.className = SELECTOR_REPLACE_ICON;
-  replaceIcon.src = ICON_SRC_REPLACE;
+  replaceIcon.setAttribute('data-src', ICON_SRC_REPLACE);
   replaceIcon.alt = 'Replace text icon';
 
   const closeIcon = document.createElement('img');
   closeIcon.className = SELECTOR_CLOSE_ICON;
-  closeIcon.src = ICON_SRC_CLOSE;
+  closeIcon.setAttribute('data-src', ICON_SRC_CLOSE);
   closeIcon.alt = 'Cross icon';
 
   const errorIcon = document.createElement('img');
   errorIcon.className = SELECTOR_ERROR_ICON;
-  errorIcon.src = ICON_SRC_ERROR;
+  errorIcon.setAttribute('data-src', ICON_SRC_ERROR);
   errorIcon.alt = 'Error circle icon';
 
   const changeBtn = document.createElement('button');
@@ -112,6 +112,7 @@ export function _createUIElements() {
     copyIcon,
     replaceIcon,
     closeIcon,
+    errorIcon,
     errorMessage,
     copyBtn,
     actionsContainer,
