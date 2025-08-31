@@ -1,4 +1,4 @@
-# UKRIFY – Chrome Extension
+# Ukrify – Chrome Extension
 
 > **No more “ghbdsn” when you meant “привіт”!**  
 Save time, skip the retyping, and fix your text instantly with just one click.
@@ -8,11 +8,11 @@ Save time, skip the retyping, and fix your text instantly with just one click.
 ## Overview
 
 Are you tired of accidentally typing Ukrainian words with your keyboard set to English layout?<br>
-**UKRIFY** is a lightweight Chrome extension designed specifically for bilingual keyboard users to quickly convert text typed in the wrong layout.<br>
-Forget deleting and retyping — simply highlight your text, and UKRIFY instantly transforms it from English letters to proper Ukrainian Cyrillic.<br>
+**Ukrify** is a lightweight Chrome extension designed specifically for bilingual keyboard users to quickly convert text typed in the wrong layout.<br>
+Forget deleting and retyping — simply highlight your text, and Ukrify instantly transforms it from English letters to proper Ukrainian Cyrillic.<br>
 
 
-## Try UKRIFY
+## Try Ukrify
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-black?style=for-the-badge&logoColor=%23ffe259&label=Visit&labelColor=%23ffe259)](https://chromewebstore.google.com/detail/ukrify/fbfgapejodfnnmfijbhkgjakcmbfbcpo)
 
@@ -41,7 +41,7 @@ Forget deleting and retyping — simply highlight your text, and UKRIFY instantl
 ## How to Use
 
 1. Select the misspelled word or sentence using double-click or `Ctrl+A`.
-2. Click the **UKRIFY icon** that appears near the selection.
+2. Click the **Ukrify icon** that appears near the selection.
 3. Choose an action: **Copy** (converted text to clipboard) or **Replace** (convert directly in place).
 4. Done!
 
